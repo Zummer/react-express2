@@ -7,7 +7,7 @@ services:
     volumes:
       - ./docker-nginx/default.conf:/etc/nginx/conf.d/default.conf
   web:
-    image: react-cli
+    image: webapp
     command: npm start
     volumes:
       - ./app:/app
