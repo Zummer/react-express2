@@ -1,16 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import LoginForm from '../forms/LoginForm';
 
-function LoginPage({...props}) {
+function LoginPage() {
   return (
     <div>
       <h1>Login Page</h1>
+      <LoginForm />
     </div>
   );
 }
-
-LoginPage.defaultProps = {};
-
-LoginPage.propTypes = {};
 
 export default LoginPage;
