@@ -1,6 +1,7 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
+import InlineError from '../messages/InlineError';
 
 class LoginForm extends Component {
   state = {
@@ -21,17 +22,29 @@ class LoginForm extends Component {
     });
 
   render() {
-    const { data } = this.state;
+    const {data} = this.state;
 
     return (
       <Form>
         <Form.Field>
           <label htmlFor="email">Email</label>
-          <input type="email"
+          <input
+            type="email"
             id="email"
             name="email"
             placeholder="example@example.com"
             value={data.email}
+            onChange={this.onChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Make it secure"
+            value={data.password}
             onChange={this.onChange}
           />
         </Form.Field>
