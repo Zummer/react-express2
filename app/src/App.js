@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import './index.less';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
+import './index.css';
 
 const App = () => (
   <div className="ui container">
