@@ -9,10 +9,12 @@ class LoginPage extends Component {
     const { history, login } = this.props;
     try {
       const action = await login(data);
+
       if (action.status === 'SUCCESS') {
-        history.push('/');
+        return history.push('/');
       }
 
+      return action;
     } catch (error) {
       throw error;
     }
