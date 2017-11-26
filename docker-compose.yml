@@ -10,4 +10,4 @@ services:
     image: webapp
     command: npm start
     volumes:
-      - ./app:/app
+      - ./client:/app

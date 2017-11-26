@@ -17,7 +17,7 @@ export default store => next => async action => {
   const actionWith = obj => {
     const finalAction = {
       ...action,
-      obj
+      ...obj
     };
 
     // delete finalAction[CALL_API];
