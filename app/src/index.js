@@ -5,11 +5,13 @@ import { createStore, applyMiddleware  } from "redux";
 import { Provider  } from "react-redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
+import api from './middlewares/api';
 import App from './App';
 import rootReducer from './rootReducer';
 import registerServiceWorker from './registerServiceWorker';
 
 const middlewares = [
+  api,
   thunk
 ];
 

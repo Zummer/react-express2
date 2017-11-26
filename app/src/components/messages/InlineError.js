@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function InlineError({ text }) {
+const InlineError = ({ text }) => {
   return (
     <span className="inline-error">
       {text}
