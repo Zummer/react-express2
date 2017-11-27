@@ -23,6 +23,26 @@ class LoginForm extends Component {
       }
     });
 
+  onSubmit = async () => {
+    const {data} = this.state;
+    const {submit} = this.props;
+    const errors = this.validate(data);
+    this.setState({errors});
+
+    if (isEmpty(errors)) {
+      this.setState({loading: true});
+
+      const action = await submit(data);
+
+      if (action.status === 'FAIL') {
+        this.setState({
+          errors: action.error.errors || {global: action.message},
+          loading: false
+        })
+      }
+    }
+  }
+
   validate = (data) => {
     const errors = {};
     if (!Validator.isEmail(data.email)) errors.email = 'Invalid email';
@@ -30,32 +50,11 @@ class LoginForm extends Component {
     return errors;
   };
 
-  onSubmit = async () => {
-    const { data } = this.state;
-    const { submit } = this.props;
-    const errors = this.validate(data);
-    this.setState({ errors });
-
-    if (isEmpty(errors)) {
-      try {
-        const action = await submit(data);
-
-        if (action.status === 'FAIL') {
-          this.setState({
-            errors: action.error.errors
-          })
-        }
-      } catch (error) {
-        throw error;
-      }
-    }
-  }
-
   render() {
-    const { data, errors } = this.state;
+    const {data, errors, loading} = this.state;
 
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form onSubmit={this.onSubmit} loading={loading}>
         {errors.global && <Message negative>
           <Message.Header>Something went wrong</Message.Header>
           <p>{errors.global}</p>
@@ -70,7 +69,7 @@ class LoginForm extends Component {
             value={data.email}
             onChange={this.onChange}
           />
-          {errors.email && <InlineError text={errors.email} />}
+          {errors.email && <InlineError text={errors.email}/>}
         </Form.Field>
         <Form.Field error={!!errors.password}>
           <label htmlFor="password">Password</label>
@@ -82,7 +81,7 @@ class LoginForm extends Component {
             value={data.password}
             onChange={this.onChange}
           />
-          {errors.password && <InlineError text={errors.password} />}
+          {errors.password && <InlineError text={errors.password}/>}
         </Form.Field>
         <Button primary>Login</Button>
       </Form>

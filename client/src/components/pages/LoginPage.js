@@ -7,17 +7,13 @@ import LoginForm from '../forms/LoginForm';
 class LoginPage extends Component {
   submit = async (data) => {
     const { history, login } = this.props;
-    try {
-      const action = await login(data);
+    const action = await login(data);
 
-      if (action.status === 'SUCCESS') {
-        return history.push('/');
-      }
-
-      return action;
-    } catch (error) {
-      throw error;
+    if (action.status === 'SUCCESS') {
+      history.push('/');
     }
+
+    return action;
   };
 
   render () {

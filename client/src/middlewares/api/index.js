@@ -20,7 +20,7 @@ export default store => next => async action => {
       ...obj
     };
 
-    // delete finalAction[CALL_API];
+    delete finalAction[CALL_API];
 
     return finalAction;
   }

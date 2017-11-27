@@ -4,8 +4,11 @@ services:
     image: nginx
     ports:
       - "80:80"
+      - "4040:4040"
     volumes:
       - ./docker-nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker-nginx/logs/nginx-error.log:/var/log/nginx/error.log
+      - ./docker-nginx/logs/nginx-access.log:/var/log/nginx/access.log
   web:
     image: webapp
     command: npm start
@@ -18,3 +21,23 @@ services:
       - "8080:8080"
     volumes:
       - ./server:/app
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - ./mysql:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+  phpfpm:
+    image: php:fpm
+    volumes:
+      - ./php:/usr/share/nginx/html
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8183:80"
+    environment:
+      PMA_HOST: mysql
