@@ -16,13 +16,16 @@ services:
       - ./client:/app
   server:
     image: webapp
-    command: npm start
+    command: npm run inspect
     ports:
       - "8080:8080"
+      - "9229:9229"
     volumes:
       - ./server:/app
   mysql:
     image: mysql
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: admin
     volumes:
