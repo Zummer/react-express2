@@ -50,7 +50,7 @@ export default store => next => async action => {
       actionWith({
         type: failureType,
         error,
-        message: error.message || 'Something bad happened',
+        errorMessage: error.message || 'Something bad happened',
         status: 'FAIL'
       })
     );

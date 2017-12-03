@@ -36,7 +36,7 @@ class LoginForm extends Component {
 
       if (action.status === 'FAIL') {
         this.setState({
-          errors: action.error.errors || {global: action.message},
+          errors: action.error.errors || {global: action.errorMessage},
           loading: false
         })
       }
