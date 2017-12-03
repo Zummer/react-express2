@@ -2,13 +2,15 @@ import express from 'express';
 import User from '../models/user';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
+import InvalidCredError from '../errors/InvalidCredError';
 
 let router = express.Router();
 
 router.post('/', async (req, res) => {
   const {
     credentials: {
-      email, password
+      email,
+      password
     }
   } = req.body;
 
@@ -21,15 +23,18 @@ router.post('/', async (req, res) => {
       const token = jwt.sign({
         id: user.get('id'),
         email: user.get('email')
-      }, 'sdfsdfsdf');
+      }, process.env.JWT_SECRET);
 
       res.json({token});
     } else {
-      throw new Error('Invalid Credentials');
+      throw new InvalidCredError('Invalid Credentials');
     }
   } catch (e) {
-    console.log({name: e.name, message: e.message});
-    res.status(500).json(e);
+    if (e instanceof InvalidCredError) {
+      res.status(401).json({message: e.message});
+    } else {
+      res.status(500).json({message: e.message});
+    }
   }
 });
 
