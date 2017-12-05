@@ -10,7 +10,7 @@ class LoginPage extends Component {
     const action = await login(data);
 
     if (action.status === 'SUCCESS') {
-      history.push('/');
+      history.push('/dashboard');
     }
 
     return action;
