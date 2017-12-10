@@ -1,5 +1,5 @@
 import express from 'express';
-import User from '../models/user';
+import User from '../models/User';
 import InvalidCredError from '../errors/InvalidCredError';
 
 let router = express.Router();

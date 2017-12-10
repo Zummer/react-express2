@@ -5,6 +5,19 @@ import md5 from 'md5';
 class User extends bookshelf.Model {
   get tableName() { return 'users' };
 
+  initialize() {
+    this.on('creating', this.hashPassword, this);
+  }
+
+  get token() {
+    const token = jwt.sign({
+      id: this.get('id'),
+      email: this.get('email')
+    }, process.env.JWT_SECRET);
+
+    return token;
+  }
+
   static async login(email, password) {
     if (!email || !password)  {
       throw new Error('Email and password are both required');
@@ -18,15 +31,15 @@ class User extends bookshelf.Model {
       });
 
     if (user && md5(password) === user.get('password_diggest')) {
-      const token = jwt.sign({
-        id: user.get('id'),
-        email: user.get('email')
-      }, process.env.JWT_SECRET);
-
-      return token;
+      return user.token;
     }
 
     return false;
+  }
+
+  hashPassword(model, attrs, options){
+    const hash = md5(model.attributes.password_diggest);
+    model.set('password_diggest', hash);
   }
 };
 

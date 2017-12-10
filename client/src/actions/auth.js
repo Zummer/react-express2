@@ -44,4 +44,5 @@ export const login = credentials => async (dispatch) => {
 export const logout = () => dispatch => {
   localStorage.removeItem('bookwormJWT');
   return dispatch(userLoggedOut());
-}
+};
+

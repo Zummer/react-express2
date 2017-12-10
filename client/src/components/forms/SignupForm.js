@@ -1,39 +1,50 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Message } from 'semantic-ui-react';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'lodash/isEmpty';
+import { Form, Button, Message } from 'semantic-ui-react';
 import InlineError from '../messages/InlineError';
 
-class LoginForm extends Component {
+class SignupForm extends Component {
   state = {
     data: {
       email: '',
-      password: '',
+      password: ''
     },
     loading: false,
     errors: {}
   };
 
+  static propTypes = {
+    submit: PropTypes.func.isRequired,
+  };
+
+  validate = data => {
+    const errors ={};
+
+    if (!isEmail(data.email)) errors.email = 'Invalid email';
+    if (!data.password) errors.password = "Can't be blank";
+
+    return errors;
+  };
+
   onChange = e => {
-    const {
-      name,
-      value
-    } = e.target;
+    const { name, value } = e.target;
 
     this.setState({
+      ...this.state,
       data: {
         ...this.state.data,
         [name]: value
       }
-    });
-  };
+    })
+  }
 
   onSubmit = async () => {
-    const {data} = this.state;
-    const {submit} = this.props;
+    const { data } = this.state;
+    const { submit } = this.props;
     const errors = this.validate(data);
-    this.setState({errors});
+    this.setState({ errors });
 
     if (isEmpty(errors)) {
       this.setState({loading: true});
@@ -49,17 +60,8 @@ class LoginForm extends Component {
     }
   }
 
-  validate = data => {
-    const errors = {};
-
-    if (!isEmail(data.email)) errors.email = 'Invalid email';
-    if (!data.password) errors.password = "Can't be blank";
-
-    return errors;
-  };
-
   render() {
-    const {data, errors, loading} = this.state;
+    const { errors, data, loading } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
@@ -70,36 +72,31 @@ class LoginForm extends Component {
         <Form.Field error={!!errors.email}>
           <label htmlFor="email">Email</label>
           <input
-            type="email"
+            type="text"
             id="email"
             name="email"
-            placeholder="example@example.com"
+            placeHolder="examlple@example.com"
             value={data.email}
             onChange={this.onChange}
           />
-          {errors.email && <InlineError text={errors.email}/>}
         </Form.Field>
+        {!!errors && <InlineError text={errors.email}/>}
         <Form.Field error={!!errors.password}>
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
             name="password"
-            placeholder="Make it secure"
             value={data.password}
             onChange={this.onChange}
           />
-          {errors.password && <InlineError text={errors.password}/>}
         </Form.Field>
-        <Button primary>Login</Button>
+        {!!errors && <InlineError text={errors.password}/>}
+        <Button primary>Sign Up</Button>
       </Form>
     );
   }
 }
 
-LoginForm.propTypes = {
-  submit: PropTypes.func.isRequired,
-};
-
-export default LoginForm;
+export default SignupForm;
 
