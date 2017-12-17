@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 
-const API_ROOT = 'api/';
+const API_ROOT = '/api/';
 
 export const callApi = async (endpoint, method, token, queryParams, payload, testUrl) => {
   let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
@@ -34,6 +34,8 @@ export const callApi = async (endpoint, method, token, queryParams, payload, tes
   }
 
   try {
+    console.log(fullUrl);
+
     const response = await fetch(fullUrl, requestOptions);
     const data = await response.json();
 

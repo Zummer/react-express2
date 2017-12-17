@@ -5,6 +5,9 @@ import {
   LOGIN_FAILURE,
   USER_LOGGED_IN,
   USER_LOGGED_OUT,
+  CONFIRM_REQUEST,
+  CONFIRM_SUCCESS,
+  CONFIRM_FAILURE,
 } from '../types';
 
 export const userLoggedIn = (user) => ({
@@ -45,4 +48,28 @@ export const logout = () => dispatch => {
   localStorage.removeItem('bookwormJWT');
   return dispatch(userLoggedOut());
 };
+
+export const confirm = token => async (dispatch) => {
+  try {
+    const action = await dispatch({
+      [CALL_API]: {
+        types: [CONFIRM_REQUEST, CONFIRM_SUCCESS, CONFIRM_FAILURE],
+        method: 'POST',
+        endpoint: 'auth/confirmation',
+        payload: { token }
+      }
+    });
+
+    if (action.type === CONFIRM_SUCCESS && action.response) {
+      const user = action.response;
+
+      localStorage.bookwormJWT = user.token;
+      dispatch(userLoggedIn(user));
+    }
+
+    return action;
+  } catch (error) {
+    throw error;
+  }
+}
 
