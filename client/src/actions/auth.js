@@ -49,6 +49,10 @@ export const logout = () => dispatch => {
   return dispatch(userLoggedOut());
 };
 
+export const resetPasswordRequest = () => {
+  return false;
+};
+
 export const confirm = token => async (dispatch) => {
   try {
     const action = await dispatch({

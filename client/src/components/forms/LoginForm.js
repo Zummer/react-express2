@@ -16,6 +16,7 @@ class LoginForm extends Component {
   };
 
   onChange = e => {
+    const { data } = this.props;
     const {
       name,
       value
@@ -23,7 +24,7 @@ class LoginForm extends Component {
 
     this.setState({
       data: {
-        ...this.state.data,
+        ...data,
         [name]: value
       }
     });

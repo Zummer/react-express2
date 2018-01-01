@@ -1,31 +1,20 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
+import { Form, Button } from 'semantic-ui-react';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'lodash/isEmpty';
-import { Form, Button, Message } from 'semantic-ui-react';
 import InlineError from '../messages/InlineError';
 
-class SignupForm extends Component {
+class ForgotPasswordForm extends Component {
   state = {
     data: {
-      email: '',
-      password: ''
+      email: ''
     },
     loading: false,
     errors: {}
   };
 
   static propTypes = {
-    submit: PropTypes.func.isRequired,
-  };
-
-  validate = data => {
-    const errors ={};
-
-    if (!isEmail(data.email)) errors.email = 'Invalid email';
-    if (!data.password) errors.password = "Can't be blank";
-
-    return errors;
   };
 
   onChange = e => {
@@ -41,14 +30,13 @@ class SignupForm extends Component {
   };
 
   onSubmit = async () => {
-    const { data } = this.state;
-    const { submit } = this.props;
+    const { data, submit } = this.props;
     const errors = this.validate(data);
+
     this.setState({ errors });
 
     if (isEmpty(errors)) {
-      this.setState({loading: true});
-
+      this.setState({ loading: true });
       const action = await submit(data);
 
       if (action.status === 'FAIL') {
@@ -58,45 +46,30 @@ class SignupForm extends Component {
         })
       }
     }
-  }
+  };
 
   render() {
     const { errors, data, loading } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
-        {errors.global && <Message negative>
-          <Message.Header>Something went wrong</Message.Header>
-          <p>{errors.global}</p>
-        </Message>}
         <Form.Field error={!!errors.email}>
           <label htmlFor="email">Email</label>
           <input
-            type="text"
+            type="email"
             id="email"
             name="email"
-            placeholder="examlple@example.com"
+            placeholder="email"
             value={data.email}
             onChange={this.onChange}
           />
+          {errors.email && <InlineError text={errors.email} />}
         </Form.Field>
-        {errors.email && <InlineError text={errors.email}/>}
-        <Form.Field error={!!errors.password}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={data.password}
-            onChange={this.onChange}
-          />
-        </Form.Field>
-        {errors.password && <InlineError text={errors.password}/>}
-        <Button primary>Sign Up</Button>
+        <Button primary>ForgotPasswordForm</Button>
       </Form>
     );
   }
 }
 
-export default SignupForm;
+export default ForgotPasswordForm;
 

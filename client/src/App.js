@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashboardPage';
 import SignupPage from './components/pages/SignupPage';
+import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
 import ConfirmationPage from './components/pages/ConfirmationPage';
 import './index.css';
 import UserRoute from './components/routes/UserRoute';
@@ -16,6 +17,7 @@ const App = ({ location }) => (
     <Route location={location} path="/confirmation/:token" exact component={ConfirmationPage}/>
     <GuestRoute location={location} path="/login" exact component={LoginPage}/>
     <GuestRoute location={location} path="/signup" exact component={SignupPage}/>
+    <GuestRoute location={location} path="/forgot_password" exact component={ForgotPasswordPage}/>
     <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
   </div>
 );
