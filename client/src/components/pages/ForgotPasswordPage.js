@@ -24,6 +24,8 @@ class ForgotPasswordPage extends Component {
         success: false
       });
     }
+
+    return action;
   }
 
   render() {

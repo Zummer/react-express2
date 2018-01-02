@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Message } from 'semantic-ui-react';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'lodash/isEmpty';
 import InlineError from '../messages/InlineError';
@@ -15,10 +15,11 @@ class ForgotPasswordForm extends Component {
   };
 
   static propTypes = {
+    submit: PropTypes.func.isRequired,
   };
 
   onChange = e => {
-    const { data } = this.props;
+    const { data } = this.state;
     const { name, value } = e.target;
 
     this.setState({
@@ -30,7 +31,8 @@ class ForgotPasswordForm extends Component {
   };
 
   onSubmit = async () => {
-    const { data, submit } = this.props;
+    const { submit } = this.props;
+    const { data } = this.state;
     const errors = this.validate(data);
 
     this.setState({ errors });
@@ -48,11 +50,25 @@ class ForgotPasswordForm extends Component {
     }
   };
 
+  validate = data => {
+    const errors = {};
+
+    if (!isEmail(data.email)) {
+      errors.email = "Invalid email";
+    }
+
+    return errors;
+  }
+
   render() {
     const { errors, data, loading } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
+        {errors.global && <Message negative>
+          <Message.Header>Something went wrong</Message.Header>
+          <p>{errors.global}</p>
+        </Message>}
         <Form.Field error={!!errors.email}>
           <label htmlFor="email">Email</label>
           <input

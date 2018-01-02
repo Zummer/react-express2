@@ -8,6 +8,9 @@ import {
   CONFIRM_REQUEST,
   CONFIRM_SUCCESS,
   CONFIRM_FAILURE,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE,
 } from '../types';
 
 export const userLoggedIn = (user) => ({
@@ -49,8 +52,21 @@ export const logout = () => dispatch => {
   return dispatch(userLoggedOut());
 };
 
-export const resetPasswordRequest = () => {
-  return false;
+export const resetPasswordRequest = ({ email }) => async (dispatch) => {
+  try {
+    const action = await dispatch({
+      [CALL_API]: {
+        types: [RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE],
+        method: 'POST',
+        endpoint: 'auth/reset_password_request',
+        payload: { email }
+      }
+    });
+
+    return action;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const confirm = token => async (dispatch) => {

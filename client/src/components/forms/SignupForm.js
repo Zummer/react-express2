@@ -29,7 +29,7 @@ class SignupForm extends Component {
   };
 
   onChange = e => {
-    const { data } = this.props;
+    const { data } = this.state;
     const { name, value } = e.target;
 
     this.setState({

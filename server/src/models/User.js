@@ -6,7 +6,6 @@ import { sendConfirmationEmail } from '../mailer';
 class User extends bookshelf.Model {
   constructor(data, options){
     super({
-      confirmed: false,
       ...data
     },
       options
@@ -64,12 +63,27 @@ class User extends bookshelf.Model {
     );
   }
 
+  generateResetPasswordToken() {
+    return jwt.sign(
+      {
+        id: this.id
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1s" }
+    );
+  }
+
+
   toAuthJSON() {
     return {
       email: this.email,
       confirmed: this.confirmed,
       token: this.generateJWT()
     };
+  }
+
+  generateResetPasswordUrl(){
+    return `${process.env.HOST}/reset_password/${this.generateResetPasswordToken()}`
   }
 
   generateConfirmationUrl(){
