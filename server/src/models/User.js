@@ -69,7 +69,7 @@ class User extends bookshelf.Model {
         id: this.id
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1s" }
+      { expiresIn: "1h" }
     );
   }
 
@@ -102,6 +102,11 @@ class User extends bookshelf.Model {
   hashPassword(model, attrs, options){
     const hash = md5(model.attributes.password_diggest);
     model.set('password_diggest', hash);
+  }
+
+  setPassword(password) {
+    const hash = md5(password);
+    this.set('password_diggest', hash);
   }
 };
 

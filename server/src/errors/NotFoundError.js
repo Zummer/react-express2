@@ -2,7 +2,9 @@ class NotFoundError extends Error {
   constructor(...args) {
     super(...args);
     this.name = this.constructor.name;
-    Error.captureStackTrace(this, NotFoundError);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, NotFoundError);
+    }
   }
 }
 

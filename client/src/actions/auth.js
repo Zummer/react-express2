@@ -11,6 +11,12 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
+  VALIDATE_TOKEN_REQUEST,
+  VALIDATE_TOKEN_SUCCESS,
+  VALIDATE_TOKEN_FAILURE,
+  SET_NEW_PASSWORD_REQUEST,
+  SET_NEW_PASSWORD_SUCCESS,
+  SET_NEW_PASSWORD_FAILURE,
 } from '../types';
 
 export const userLoggedIn = (user) => ({
@@ -50,6 +56,40 @@ export const login = credentials => async (dispatch) => {
 export const logout = () => dispatch => {
   localStorage.removeItem('bookwormJWT');
   return dispatch(userLoggedOut());
+};
+
+export const validateToken = token => async (dispatch) => {
+  try {
+    const action = await dispatch({
+      [CALL_API]: {
+        types: [VALIDATE_TOKEN_REQUEST, VALIDATE_TOKEN_SUCCESS, VALIDATE_TOKEN_FAILURE],
+        method: 'POST',
+        endpoint: 'auth/validate_token',
+        payload: { token }
+      }
+    });
+
+    return action;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPassword = data => async (dispatch) => {
+  try {
+    const action = await dispatch({
+      [CALL_API]: {
+        types: [SET_NEW_PASSWORD_REQUEST, SET_NEW_PASSWORD_SUCCESS, SET_NEW_PASSWORD_FAILURE],
+        method: 'POST',
+        endpoint: 'auth/set_new_password',
+        payload: { data }
+      }
+    });
+
+    return action;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const resetPasswordRequest = ({ email }) => async (dispatch) => {

@@ -16,7 +16,7 @@ class LoginForm extends Component {
   };
 
   onChange = e => {
-    const { data } = this.props;
+    const { data } = this.state;
     const {
       name,
       value

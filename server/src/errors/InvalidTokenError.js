@@ -2,7 +2,9 @@ class InvalidTokenError extends Error {
   constructor(...args) {
     super(...args);
     this.name = this.constructor.name;
-    Error.captureStackTrace(this, InvalidTokenError);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, InvalidTokenError);
+    }
   }
 }
 

@@ -24,7 +24,7 @@ class LoginPage extends Component {
         <LoginForm
           submit={this.submit}
         />
-	<Link to="/forgot_password">Forgot password?</Link>
+        <Link to="/forgot_password">Forgot password?</Link>
       </div>
     );
   }
