@@ -79,8 +79,8 @@ class SignupForm extends Component {
             value={data.email}
             onChange={this.onChange}
           />
+          {errors.email && <InlineError text={errors.email}/>}
         </Form.Field>
-        {errors.email && <InlineError text={errors.email}/>}
         <Form.Field error={!!errors.password}>
           <label htmlFor="password">Password</label>
           <input
@@ -90,8 +90,8 @@ class SignupForm extends Component {
             value={data.password}
             onChange={this.onChange}
           />
+          {errors.password && <InlineError text={errors.password}/>}
         </Form.Field>
-        {errors.password && <InlineError text={errors.password}/>}
         <Button primary>Sign Up</Button>
       </Form>
     );
